@@ -15,6 +15,7 @@ export default function ChatLogic({ botId }: ChatLogicProps) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [visible, setVisible] = useState(true)
+  // eslint-disable-next-line no-undef
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
   const scrollToBottom = () => {
