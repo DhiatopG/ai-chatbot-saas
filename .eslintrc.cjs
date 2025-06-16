@@ -1,21 +1,25 @@
 module.exports = {
-  parser: '@typescript-eslint/parser',
   env: {
     browser: true,
+    node: true,
     es2021: true,
   },
+  globals: {
+    HTMLDivElement: 'readonly',
+  },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+  },
+  plugins: ['@typescript-eslint', 'react'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'next',
   ],
-  plugins: ['@typescript-eslint', 'react'],
   rules: {
     'no-undef': 'off',
-  },
-  globals: {
-    HTMLDivElement: 'readonly',
   },
 }
