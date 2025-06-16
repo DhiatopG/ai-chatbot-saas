@@ -1,4 +1,4 @@
-import NextAuth, { type NextAuthOptions } from 'next-auth'
+import NextAuth from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import { createClient } from '@supabase/supabase-js'
@@ -8,7 +8,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
@@ -32,7 +32,6 @@ export const authOptions: NextAuthOptions = {
       return true
     },
   },
-}
+})
 
-const handler = NextAuth(authOptions)
 export { handler as GET, handler as POST }
