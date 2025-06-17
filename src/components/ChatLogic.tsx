@@ -1,4 +1,3 @@
-/// <reference lib="dom" />
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
@@ -15,7 +14,6 @@ export default function ChatLogic({ botId }: ChatLogicProps) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [visible, setVisible] = useState(true)
-  // eslint-disable-next-line no-undef
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
   const scrollToBottom = () => {
@@ -43,8 +41,8 @@ export default function ChatLogic({ botId }: ChatLogicProps) {
         {
           sender: 'bot',
           text: 'Can I ask for your name?',
-          buttons: ['Yes', 'No']
-        }
+          buttons: ['Yes', 'No'],
+        },
       ])
       setStep(1)
       return
@@ -75,7 +73,7 @@ export default function ChatLogic({ botId }: ChatLogicProps) {
       await axios.post('/api/lead', {
         user_id: botId,
         name: name || 'Anonymous',
-        email: userMessage
+        email: userMessage,
       })
 
       setStep(99)
@@ -86,7 +84,7 @@ export default function ChatLogic({ botId }: ChatLogicProps) {
       question: userMessage,
       user_id: botId,
       name,
-      email
+      email,
     })
 
     const aiResponse = res.data?.answer || 'Sorry, I couldn’t find an answer.'
@@ -96,40 +94,11 @@ export default function ChatLogic({ botId }: ChatLogicProps) {
   if (!visible) {
     return (
       <div
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          backgroundColor: '#fff',
-          padding: '10px 16px',
-          borderRadius: '24px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-          cursor: 'pointer',
-          maxWidth: '280px',
-          zIndex: 9999
-        }}
+        className="fixed bottom-5 right-5 flex items-center gap-3 bg-white px-4 py-2 rounded-full shadow-lg cursor-pointer max-w-xs z-50"
         onClick={() => setVisible(true)}
       >
-        <div style={{ fontSize: '14px', color: '#333' }}>
-          Hi! How can I help you?
-        </div>
-        <button
-          style={{
-            backgroundColor: '#4CAF50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '50%',
-            width: '40px',
-            height: '40px',
-            fontSize: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
+        <div className="text-sm text-gray-800">Hi! How can I help you?</div>
+        <button className="bg-green-600 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg">
           💬
         </button>
       </div>
@@ -137,31 +106,36 @@ export default function ChatLogic({ botId }: ChatLogicProps) {
   }
 
   return (
-    <div className="chat-wrapper">
-      <div className="chat-header">
+    <div className="fixed bottom-5 right-5 w-full max-w-sm h-[80vh] bg-white shadow-xl rounded-2xl flex flex-col overflow-hidden z-50">
+      <div className="bg-green-600 text-white px-4 py-3 text-base font-bold flex justify-between items-center">
         Assistant
         <button
           onClick={() => setVisible(false)}
-          style={{
-            float: 'right',
-            background: 'transparent',
-            border: 'none',
-            color: 'white',
-            fontSize: '16px',
-            cursor: 'pointer'
-          }}
+          className="text-white text-xl hover:text-gray-200"
         >
           ×
         </button>
       </div>
-      <div className="chat-body">
+
+      <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-white">
         {messages.map((msg, idx) => (
-          <div key={idx} className={`chat-bubble ${msg.sender}`}>
+          <div
+            key={idx}
+            className={`px-4 py-2 rounded-xl text-sm whitespace-pre-wrap max-w-[75%] ${
+              msg.sender === 'bot'
+                ? 'bg-gray-100 self-start text-black'
+                : 'bg-green-600 text-white self-end'
+            }`}
+          >
             <div>{msg.text}</div>
             {msg.buttons && (
-              <div className="quick-replies">
+              <div className="flex flex-wrap gap-2 mt-2">
                 {msg.buttons.map((btn, i) => (
-                  <button key={i} onClick={() => sendMessage(btn)}>
+                  <button
+                    key={i}
+                    onClick={() => sendMessage(btn)}
+                    className="bg-gray-200 text-sm px-3 py-1 rounded-full hover:bg-gray-300"
+                  >
                     {btn}
                   </button>
                 ))}
@@ -171,7 +145,8 @@ export default function ChatLogic({ botId }: ChatLogicProps) {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className="chat-input">
+
+      <div className="border-t p-3 bg-white flex gap-2">
         <input
           type="text"
           value={input}
@@ -180,8 +155,14 @@ export default function ChatLogic({ botId }: ChatLogicProps) {
             if (e.key === 'Enter') sendMessage()
           }}
           placeholder="Type your message..."
+          className="flex-1 p-2 rounded-full border border-gray-300 text-sm outline-none"
         />
-        <button onClick={() => sendMessage()}>Send</button>
+        <button
+          onClick={() => sendMessage()}
+          className="bg-green-600 text-white px-4 py-2 rounded-full text-sm"
+        >
+          Send
+        </button>
       </div>
     </div>
   )

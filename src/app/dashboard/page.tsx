@@ -107,19 +107,19 @@ export default function DashboardPage() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-white text-[#333333]">
         <p>Checking access...</p>
       </div>
     )
   }
 
   return (
-    <div className="bg-white text-gray-900 font-sans min-h-screen">
+    <div className="bg-white text-[#333333] font-sans min-h-screen">
       <header className="bg-[#003366] text-white p-4 shadow">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">AI Bot Dashboard</h1>
           <div className="flex gap-4">
-            <button onClick={() => router.push('/dashboard/leads')} className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            <button onClick={() => router.push('/dashboard/leads')} className="bg-[#2ECC71] text-white px-4 py-2 rounded hover:bg-green-700">
               View Leads
             </button>
             <button onClick={handleLogout} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
@@ -131,19 +131,19 @@ export default function DashboardPage() {
 
       <div className="relative">
         {!sidebarOpen && (
-          <button onClick={() => setSidebarOpen(true)} className="absolute top-4 left-4 z-50 text-2xl font-bold">☰</button>
+          <button onClick={() => setSidebarOpen(true)} className="absolute top-4 left-4 z-50 text-2xl font-bold text-[#003366]">☰</button>
         )}
         {sidebarOpen && (
-          <div className="absolute top-0 left-0 w-64 h-screen bg-[#f9f9f9] shadow-xl p-6 z-40 border-r border-gray-200">
+          <div className="absolute top-0 left-0 w-64 h-screen bg-[#f9f9f9] shadow-xl p-6 z-40 border-r border-[#CCCCCC]">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">📋 Menu</h2>
-              <button onClick={() => setSidebarOpen(false)} className="text-xl font-bold text-gray-600 hover:text-gray-900">✕</button>
+              <h2 className="text-xl font-bold text-[#333333]">📋 Menu</h2>
+              <button onClick={() => setSidebarOpen(false)} className="text-xl font-bold text-[#666666] hover:text-[#333333]">✕</button>
             </div>
             <ul className="space-y-4 text-left">
               <li>
                 <button
                   onClick={() => router.push('/dashboard')}
-                  className="w-full text-left px-3 py-2 rounded hover:bg-blue-100 text-gray-800 font-medium"
+                  className="w-full text-left px-3 py-2 rounded hover:bg-[#EEEEEE] text-[#333333] font-medium"
                 >
                   🏠 Dashboard
                 </button>
@@ -151,7 +151,7 @@ export default function DashboardPage() {
               <li>
                 <button
                   onClick={() => router.push('/dashboard/summary')}
-                  className="w-full text-left px-3 py-2 rounded hover:bg-blue-100 text-gray-800 font-medium"
+                  className="w-full text-left px-3 py-2 rounded hover:bg-[#EEEEEE] text-[#333333] font-medium"
                 >
                   📊 Daily Summary
                 </button>
@@ -159,7 +159,7 @@ export default function DashboardPage() {
               <li>
                 <button
                   onClick={() => router.push('/dashboard/conversations')}
-                  className="w-full text-left px-3 py-2 rounded hover:bg-blue-100 text-gray-800 font-medium"
+                  className="w-full text-left px-3 py-2 rounded hover:bg-[#EEEEEE] text-[#333333] font-medium"
                 >
                   💬 Conversations
                 </button>
@@ -167,7 +167,7 @@ export default function DashboardPage() {
               <li>
                 <button
                   onClick={() => router.push('/dashboard/upload')}
-                  className="w-full text-left px-3 py-2 rounded hover:bg-blue-100 text-gray-800 font-medium"
+                  className="w-full text-left px-3 py-2 rounded hover:bg-[#EEEEEE] text-[#333333] font-medium"
                 >
                   📎 Upload PDF
                 </button>
@@ -180,12 +180,12 @@ export default function DashboardPage() {
       <main className="max-w-7xl mx-auto p-6 space-y-10">
         <section className="bg-[#F2F2F2] p-6 rounded-lg shadow-md space-y-4">
           <h2 className="text-lg font-semibold mb-4">Quick Launch</h2>
-          <input type="text" placeholder="Bot Name" className="border border-gray-300 p-3 w-full rounded" value={botName} onChange={(e) => setBotName(e.target.value)} />
-          <textarea placeholder="Website URLs (one per line)" className="border border-gray-300 p-3 w-full rounded" value={urls} onChange={(e) => setUrls(e.target.value)} />
-          <textarea placeholder="Bot Description" className="border border-gray-300 p-3 w-full rounded" value={description} onChange={(e) => setDescription(e.target.value)} />
-          <textarea placeholder="Questions (Q1? Q2?...)" className="border border-gray-300 p-3 w-full rounded" value={questions} onChange={(e) => setQuestions(e.target.value)} />
-          <textarea placeholder="Answers (A1, A2,...)" className="border border-gray-300 p-3 w-full rounded" value={answers} onChange={(e) => setAnswers(e.target.value)} />
-          <button onClick={handleLaunch} className="bg-[#00BFFF] text-white px-4 py-2 rounded hover:bg-blue-500 w-full">
+          <input type="text" placeholder="Bot Name" className="border border-[#CCCCCC] p-3 w-full rounded" value={botName} onChange={(e) => setBotName(e.target.value)} />
+          <textarea placeholder="Website URLs (one per line)" className="border border-[#CCCCCC] p-3 w-full rounded" value={urls} onChange={(e) => setUrls(e.target.value)} />
+          <textarea placeholder="Bot Description" className="border border-[#CCCCCC] p-3 w-full rounded" value={description} onChange={(e) => setDescription(e.target.value)} />
+          <textarea placeholder="Questions (Q1? Q2?...)?" className="border border-[#CCCCCC] p-3 w-full rounded" value={questions} onChange={(e) => setQuestions(e.target.value)} />
+          <textarea placeholder="Answers (A1, A2,...)" className="border border-[#CCCCCC] p-3 w-full rounded" value={answers} onChange={(e) => setAnswers(e.target.value)} />
+          <button onClick={handleLaunch} className="bg-[#2ECC71] text-white px-4 py-2 rounded hover:bg-green-600 w-full">
             Launch in 60 Seconds
           </button>
         </section>
@@ -193,15 +193,15 @@ export default function DashboardPage() {
         <section>
           <h3 className="text-md font-semibold mb-2">Your Bots</h3>
           {bots.length === 0 ? (
-            <p className="text-gray-500">No bots yet.</p>
+            <p className="text-[#999999]">No bots yet.</p>
           ) : (
             <ul className="space-y-6">
               {bots.map((bot) => (
-                <li key={bot.id} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                  <h4 className="font-bold text-lg mb-1">{bot.bot_name}</h4>
-                  <p className="text-sm text-gray-500 mb-1">{bot.description}</p>
-                  <p className="text-xs text-gray-400 mb-2">{bot.urls}</p>
-                  <div className="bg-gray-100 p-2 text-sm font-mono rounded mb-2 break-all">
+                <li key={bot.id} className="bg-white border border-[#CCCCCC] rounded-lg p-4 shadow-sm">
+                  <h4 className="font-bold text-lg mb-1 text-[#003366]">{bot.bot_name}</h4>
+                  <p className="text-sm text-[#666666] mb-1">{bot.description}</p>
+                  <p className="text-xs text-[#999999] mb-2">{bot.urls}</p>
+                  <div className="bg-[#F9F9F9] p-2 text-sm font-mono rounded mb-2 break-all">
                     {`<script src="https://in60second.net/embed.js" data-user="${bot.id}" defer></script>`}
                   </div>
                   <div className="flex gap-2 mb-3">
@@ -218,25 +218,25 @@ export default function DashboardPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-2 items-start">
                     <input
-                      className="p-2 text-sm border rounded"
+                      className="p-2 text-sm border border-[#CCCCCC] rounded"
                       placeholder="NocoDB API URL"
                       value={bot.nocodb_api_url ?? ''}
                       onChange={(e) => setBots(bots.map(b => b.id === bot.id ? { ...b, nocodb_api_url: e.target.value } : b))}
                     />
                     <input
-                      className="p-2 text-sm border rounded"
+                      className="p-2 text-sm border border-[#CCCCCC] rounded"
                       placeholder="NocoDB API Key"
                       value={bot.nocodb_api_key ?? ''}
                       onChange={(e) => setBots(bots.map(b => b.id === bot.id ? { ...b, nocodb_api_key: e.target.value } : b))}
                     />
                     <input
-                      className="p-2 text-sm border rounded"
+                      className="p-2 text-sm border border-[#CCCCCC] rounded"
                       placeholder="NocoDB Table Name"
                       value={bot.nocodb_table ?? ''}
                       onChange={(e) => setBots(bots.map(b => b.id === bot.id ? { ...b, nocodb_table: e.target.value } : b))}
                     />
                     <button
-                      className="bg-[#1F4E79] text-white px-3 py-2 rounded hover:bg-[#163D5C] text-xs"
+                      className="bg-[#003366] text-white px-3 py-2 rounded hover:bg-[#002244] text-xs"
                       onClick={async () => {
                         await updateBot(bot.id, 'nocodb_api_url', bot.nocodb_api_url || '')
                         await updateBot(bot.id, 'nocodb_api_key', bot.nocodb_api_key || '')
