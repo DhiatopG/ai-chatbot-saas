@@ -16,11 +16,33 @@ export default function UploadPage() {
 
     setUploading(true)
     const filePath = `${session.user.email}/${file.name}`
-    const { error } = await supabase.storage.from('pdfs').upload(filePath, file)
+
+    const { error: uploadError } = await supabase.storage.from('pdfs').upload(filePath, file)
+
+    if (uploadError) {
+      alert('❌ Upload failed')
+      setUploading(false)
+      return
+    }
+
+    // 🔁 Call your API route to extract content and save it
+    const botRes = await supabase.from('bots').select('id').eq('user_id', session.user.email).limit(1).single()
+    const bot_id = botRes.data?.id
+
+    const res = await fetch('/api/upload-file-knowledge', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ bot_id, filename: file.name })
+    })
+
+    const response = await res.json()
     setUploading(false)
 
-    if (error) alert('❌ Upload failed')
-    else alert('✅ File uploaded')
+    if (response.success) {
+      alert('✅ File uploaded and content saved')
+    } else {
+      alert('⚠️ Uploaded but failed to process file content')
+    }
   }
 
   return (

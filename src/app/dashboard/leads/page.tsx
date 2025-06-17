@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface Lead {
   id: string;
@@ -15,6 +16,7 @@ export default function LeadsPage() {
   const { data: session, status } = useSession();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     if (status === 'authenticated' && session?.user?.email) {
@@ -31,7 +33,14 @@ export default function LeadsPage() {
   if (!session) return <p className="p-4 text-red-500">Access denied. Please log in.</p>;
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen bg-white text-gray-900 p-6 max-w-4xl mx-auto relative">
+      <button
+        onClick={() => router.push('/dashboard')}
+        className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-xl font-bold"
+      >
+        ✕
+      </button>
+
       <h1 className="text-2xl font-bold mb-4">Leads Captured</h1>
       {loading ? (
         <p className="text-gray-600">Loading leads...</p>

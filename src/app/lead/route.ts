@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
@@ -6,8 +6,13 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
-export async function POST(req: Request) {
-  const { user_id, name, email } = await req.json()
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url)
+  const user_id = searchParams.get('user_id')
+
+  if (!user_id) {
+    return NextResponse.json({ error: 'Missing user_id' }, { status: 400 })
+  }
 
   const { data: botData, error } = await supabase
     .from('bots')
@@ -16,29 +21,20 @@ export async function POST(req: Request) {
     .single()
 
   if (error || !botData) {
-    return NextResponse.json({ error: 'Bot NocoDB config not found.' }, { status: 400 })
+    return NextResponse.json({ error: 'NocoDB config not found' }, { status: 400 })
   }
 
   const { nocodb_api_token, nocodb_table_id } = botData
 
   const nocoRes = await fetch(`https://app.nocodb.com/api/v2/tables/${nocodb_table_id}/records`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'xc-token': nocodb_api_token,
-    },
-    body: JSON.stringify({
-      Name: name,
-      Email: email,
-      user_id: user_id
-    })
+    headers: { 'xc-token': nocodb_api_token }
   })
 
-  const nocoData = await nocoRes.json()
+  const result = await nocoRes.json()
 
   if (!nocoRes.ok) {
-    return NextResponse.json({ error: 'Failed to send to NocoDB.', details: nocoData }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to fetch leads', details: result }, { status: 500 })
   }
 
-  return NextResponse.json({ success: true, nocoData })
+  return NextResponse.json(result)
 }
